@@ -34,17 +34,16 @@ const pageTheme={
   "/change-password":"#FF9900",
 }
 
-function Header(props) {
+function AdminHeader(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate=useNavigate();
-  const isUserLogged=useSelector((state)=>state?.user?.isUserLogged);
   const cartItems=useSelector((state)=>state?.cart?.data)
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+ 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -69,7 +68,7 @@ function Header(props) {
     <Box sx={{ display: 'flex' }}>
       <AppBar component="nav" sx={{
         boxShadow:location.pathname!=='/'&&"rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-        bgcolor:(pageTheme[location.pathname] || "#3CB815"),
+        bgcolor:( "#6984B5"),
         }}>
         <Toolbar>
           <IconButton
@@ -87,51 +86,22 @@ function Header(props) {
             ,color:"white",
             textDecoration:'none'
           } }}
-          component={Link} to={'/'}
+          component={Link} to={'/dashboard'}
           >
             Planet
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'flex' },alignItems:'center'}}>
 
-              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/'}>
+              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/dashboard'}>
                 Home
               </Button>
 
-              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/'}>
-                Shop
+              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/addProduct'}>
+                Product
               </Button>
-
-              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/about'}>
-                About
-              </Button>
-
-              <Button sx={{ color: 'white',textTransform:'capitalize' }} component={Link} to={'/contact'}>
-                Contact
-              </Button>
-
-              <Button sx={{ color:'white',textTransform:'capitalize',mr:'.5rem'}} component={Link} to={'/cart'} size='small'>
-              <Badge
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                badgeContent={cartItems.length}
-                color='primary'
-              >
-                
-                <Typography sx={{pr:'.5rem'}}>Cart</Typography>
-              </Badge>
-              </Button>
+ 
             
-            {
-              isUserLogged?<AccountMenu/>:(
-            <>
-              <Button variant='contained' sx={{textTransform:'capitalize',bgcolor:'white',color:(pageTheme[location.pathname]|| "#3CB815"),'&:hover': {background: "whitesmoke"}}} onClick={()=>navigate("/login")}>Login</Button>
-              <Button variant='contained' sx={{textTransform:'capitalize',bgcolor:'white',ml:'1rem',color:(pageTheme[location.pathname]|| "#3CB815"),'&:hover': {background: "whitesmoke"}}} onClick={()=>navigate("/signup")}>Sign up</Button>
-            </>
-            )
             
-            }
             
    
             
@@ -163,4 +133,4 @@ function Header(props) {
 }
 
 
-export default Header;
+export default AdminHeader;
