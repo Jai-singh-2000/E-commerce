@@ -4,10 +4,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { forgetOtp } from '../../api/devApi';
-import { useNavigate } from "react-router-dom";
+import { forgetOtp } from '../../api/userApi';
+import { useNavigate } from "react-router-dom"
+import { useState } from 'react';
 import LockResetIcon from '@mui/icons-material/LockReset';
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -22,12 +22,11 @@ const style = {
 };
 
 export default function ForgetModal() {
-  const navigate = useNavigate();
-  const [email, setEmail] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+    const navigate = useNavigate()
+    const [email,setEmail]=useState("")
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
   const handleSendForgetOtp = async () => {
     const dummy = { "email": email };

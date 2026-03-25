@@ -1,244 +1,180 @@
-import * as React from 'react';
-import { Box, Modal, Backdrop, Fade, Button, Typography, Divider } from '@mui/material';
+import React, { useState } from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import TuneIcon from '@mui/icons-material/Tune';
+import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import SpaIcon from '@mui/icons-material/Spa';
 
-const TYPES = ['Clothes', 'Shoes', 'Plants', 'Accessories', 'Toys'];
-const BRANDS = ['Iconic', 'VIEN', 'Adidas', 'Green Toys'];
-const PRICES = ['Under ₹500', '₹500–1K', '₹1K–5K', 'Above ₹5K'];
+const categories = [
+    { label: 'All', emoji: '🌿' },
+    { label: 'Accessories', emoji: '👜' },
+    { label: 'Clothes', emoji: '👕' },
+    { label: 'Home', emoji: '🏠' },
+    { label: 'Furniture', emoji: '🪑' },
+    { label: 'Toys', emoji: '🧸' },
+];
 
-const pillSx = (active) => ({
-  px: '14px',
-  py: '8px',
-  borderRadius: '50px',
-  fontSize: '13px',
-  fontWeight: 500,
-  border: '1px solid',
-  cursor: 'pointer',
-  transition: 'all 0.2s',
-  borderColor: active ? '#3CB815' : '#E0E0E0',
-  bgcolor: active ? '#E8F5E9' : '#fff',
-  color: active ? '#2E7D32' : '#555',
-  '&:hover': {
-    borderColor: '#3CB815',
-    bgcolor: active ? '#E8F5E9' : 'rgba(60, 184, 21, 0.04)',
-  },
-});
+export default function FilterModal({ category, setCategory }) {
+    const [open, setOpen] = useState(false);
 
-export default function ProdFilterModal() {
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState('');
-  const [brand, setBrand] = React.useState('');
-  const [price, setPrice] = React.useState('');
+    const handleSelect = (item) => {
+        setCategory(item);
+        setOpen(false);
+    };
 
-  const handleReset = () => {
-    setType('');
-    setBrand('');
-    setPrice('');
-  };
-
-  const handleApply = () => {
-    console.log({ type, brand, price });
-    setOpen(false);
-  };
-
-  return (
-    <Box>
-      <Button
-        onClick={() => setOpen(true)}
-        startIcon={<TuneIcon sx={{ fontSize: '18px !important' }} />}
-        sx={{
-          borderRadius: '12px',
-          border: '1px solid #E0E0E0',
-          bgcolor: '#fff',
-          color: '#333',
-          textTransform: 'none',
-          fontWeight: 600,
-          fontSize: '14px',
-          px: 2,
-          py: 1,
-          boxShadow: 'none',
-          '&:hover': {
-            borderColor: '#3CB815',
-            color: '#2E7D32',
-            bgcolor: '#F1F8E9',
-            boxShadow: 'none',
-          },
-        }}
-      >
-        Filter
-      </Button>
-
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{ backdrop: { timeout: 300 } }}
-      >
-        <Fade in={open}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: { xs: '90%', sm: 400 },
-              maxHeight: '90vh',
-              bgcolor: '#fff',
-              borderRadius: '24px',
-              outline: 'none',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-            }}
-          >
-            {/* Header */}
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              p={3}
-              sx={{ borderBottom: '1px solid #f0f0f0' }}
+    return (
+        <Box>
+            {/* Trigger button — white pill on dark banner */}
+            <Button
+                onClick={() => setOpen(true)}
+                startIcon={<TuneIcon sx={{ fontSize: '16px' }} />}
+                sx={{
+                    textTransform: 'none',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    borderRadius: '12px',
+                    px: 2.5,
+                    py: 1.1,
+                    bgcolor: 'rgba(255,255,255,0.12)',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    backdropFilter: 'blur(8px)',
+                    fontFamily: "'Lato', sans-serif",
+                    transition: 'all 0.2s',
+                    '&:hover': {
+                        bgcolor: 'rgba(255,255,255,0.2)',
+                        borderColor: 'rgba(255,255,255,0.4)',
+                    },
+                }}
             >
-              <Typography
-                sx={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: '1.5rem',
-                  fontWeight: 700,
-                  color: '#1A1A1A',
-                }}
-              >
-                Filters
-              </Typography>
-              <Box
-                onClick={() => setOpen(false)}
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: '50%',
-                  bgcolor: '#F5F5F5',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  '&:hover': { bgcolor: '#E0E0E0' },
-                }}
-              >
-                <CloseIcon sx={{ fontSize: '18px', color: '#666' }} />
-              </Box>
-            </Box>
+                {category !== 'All' ? `Category: ${category}` : 'Filter by Category'}
+            </Button>
 
-            {/* Content */}
-            <Box sx={{ p: 3, overflowY: 'auto', flex: 1 }}>
-              {/* Product Type */}
-              <Box mb={3}>
-                <Typography
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: '#555',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    mb: 1.5,
-                  }}
-                >
-                  Category
-                </Typography>
-                <Box display="flex" flexWrap="wrap" gap="8px">
-                  {TYPES.map((t) => (
-                    <Box key={t} onClick={() => setType(t === type ? '' : t)} sx={pillSx(type === t)}>
-                      {t}
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{ backdrop: { timeout: 250, sx: { backdropFilter: 'blur(4px)', bgcolor: 'rgba(0,0,0,0.35)' } } }}
+            >
+                <Fade in={open}>
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: { xs: '88vw', sm: 360 },
+                            bgcolor: '#fff',
+                            borderRadius: '24px',
+                            boxShadow: '0 32px 80px rgba(0,0,0,0.18)',
+                            overflow: 'hidden',
+                            outline: 'none',
+                        }}
+                    >
+                        {/* Header */}
+                        <Box
+                            sx={{
+                                background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)',
+                                px: 3,
+                                py: 2.5,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}
+                        >
+                            <Box sx={{ position: 'absolute', inset: 0, opacity: 0.07, backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2, zIndex: 1 }}>
+                                <SpaIcon sx={{ color: '#A5D6A7', fontSize: '20px' }} />
+                                <Typography sx={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 700, color: '#fff' }}>
+                                    Browse Category
+                                </Typography>
+                            </Box>
+                            <Box
+                                onClick={() => setOpen(false)}
+                                sx={{ width: 30, height: 30, borderRadius: '8px', bgcolor: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 1, '&:hover': { bgcolor: 'rgba(255,255,255,0.25)' }, transition: 'background 0.2s' }}
+                            >
+                                <CloseIcon sx={{ color: '#fff', fontSize: '16px' }} />
+                            </Box>
+                        </Box>
+
+                        {/* Category List */}
+                        <Box sx={{ py: 1.5, px: 1.5 }}>
+                            {categories.map(({ label, emoji }) => {
+                                const isActive = category === label;
+                                return (
+                                    <Box
+                                        key={label}
+                                        onClick={() => handleSelect(label)}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            px: 2,
+                                            py: 1.4,
+                                            borderRadius: '12px',
+                                            cursor: 'pointer',
+                                            bgcolor: isActive ? '#E8F5E9' : 'transparent',
+                                            transition: 'all 0.15s',
+                                            mb: 0.5,
+                                            '&:hover': { bgcolor: isActive ? '#E8F5E9' : '#F7FAF5' },
+                                        }}
+                                    >
+                                        <Box display="flex" alignItems="center" gap={1.5}>
+                                            <Typography sx={{ fontSize: '20px', lineHeight: 1 }}>{emoji}</Typography>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '14px',
+                                                    fontWeight: isActive ? 700 : 500,
+                                                    color: isActive ? '#2E7D32' : '#333',
+                                                    fontFamily: "'Lato', sans-serif",
+                                                    transition: 'color 0.15s',
+                                                }}
+                                            >
+                                                {label}
+                                            </Typography>
+                                        </Box>
+                                        {isActive && (
+                                            <Box sx={{ width: 22, height: 22, borderRadius: '50%', bgcolor: '#3CB815', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <CheckIcon sx={{ fontSize: '13px', color: '#fff' }} />
+                                            </Box>
+                                        )}
+                                    </Box>
+                                );
+                            })}
+                        </Box>
+
+                        {/* Footer */}
+                        <Box sx={{ px: 3, pb: 3, pt: 1 }}>
+                            <Button
+                                fullWidth
+                                onClick={() => { setCategory('All'); setOpen(false); }}
+                                variant="outlined"
+                                sx={{
+                                    borderRadius: '12px',
+                                    borderColor: '#E0EDD8',
+                                    color: '#6A9A5A',
+                                    fontWeight: 600,
+                                    fontSize: '13px',
+                                    textTransform: 'none',
+                                    fontFamily: "'Lato', sans-serif",
+                                    py: 1.1,
+                                    '&:hover': { borderColor: '#3CB815', bgcolor: '#F7FAF5' },
+                                }}
+                            >
+                                Clear Filter
+                            </Button>
+                        </Box>
                     </Box>
-                  ))}
-                </Box>
-              </Box>
-
-              {/* Brand */}
-              <Box mb={3}>
-                <Typography
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: '#555',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    mb: 1.5,
-                  }}
-                >
-                  Brand
-                </Typography>
-                <Box display="flex" flexWrap="wrap" gap="8px">
-                  {BRANDS.map((b) => (
-                    <Box key={b} onClick={() => setBrand(b === brand ? '' : b)} sx={pillSx(brand === b)}>
-                      {b}
-                    </Box>
-                  ))}
-                </Box>
-              </Box>
-
-              {/* Price */}
-              <Box>
-                <Typography
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    color: '#555',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                    mb: 1.5,
-                  }}
-                >
-                  Price Range
-                </Typography>
-                <Box display="flex" flexWrap="wrap" gap="8px">
-                  {PRICES.map((p) => (
-                    <Box key={p} onClick={() => setPrice(p === price ? '' : p)} sx={pillSx(price === p)}>
-                      {p}
-                    </Box>
-                  ))}
-                </Box>
-              </Box>
-            </Box>
-
-            {/* Footer Actions */}
-            <Box sx={{ p: 3, bgcolor: '#FAFAFA', borderTop: '1px solid #f0f0f0' }}>
-              <Button
-                onClick={handleApply}
-                fullWidth
-                sx={{
-                  borderRadius: '12px',
-                  bgcolor: '#3CB815',
-                  color: '#fff',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  fontSize: '15px',
-                  py: 1.5,
-                  boxShadow: '0 4px 14px rgba(60, 184, 21, 0.25)',
-                  '&:hover': { bgcolor: '#2fa012', boxShadow: '0 6px 18px rgba(60, 184, 21, 0.35)' },
-                }}
-              >
-                Show Results
-              </Button>
-              <Button
-                onClick={handleReset}
-                fullWidth
-                sx={{
-                  mt: 1.5,
-                  color: '#888',
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  '&:hover': { color: '#333', bgcolor: 'transparent' },
-                }}
-              >
-                Clear All
-              </Button>
-            </Box>
-          </Box>
-        </Fade>
-      </Modal>
-    </Box>
-  );
+                </Fade>
+            </Modal>
+        </Box>
+    );
 }

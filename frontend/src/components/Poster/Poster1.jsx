@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import { Box, Typography, Button, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -109,8 +108,7 @@ const Poster1 = () => {
                 left: 0,
                 right: 0,
                 height: "3px",
-                background:
-                  "linear-gradient(to right, #4A7C30, transparent)",
+                background: "linear-gradient(to right, #4A7C30, transparent)",
                 borderRadius: "2px",
               },
             }}
@@ -219,7 +217,15 @@ const Poster1 = () => {
         </Box>
 
         {/* CTA */}
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center", position: "relative", zIndex: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
           <Button
             variant="contained"
             size="large"
@@ -265,7 +271,8 @@ const Poster1 = () => {
       <Box
         sx={{
           flex: { md: "0 0 48%" },
-          background: "linear-gradient(145deg, #3D6B27 0%, #1B4520 50%, #0F3016 100%)",
+          background:
+            "linear-gradient(145deg, #3D6B27 0%, #1B4520 50%, #0F3016 100%)",
           position: "relative",
           display: "flex",
           alignItems: "center",
@@ -304,7 +311,8 @@ const Poster1 = () => {
             position: "absolute",
             width: "400px",
             height: "400px",
-            background: "radial-gradient(circle, rgba(139,195,74,0.25) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(139,195,74,0.25) 0%, transparent 70%)",
             borderRadius: "50%",
           }}
         />
